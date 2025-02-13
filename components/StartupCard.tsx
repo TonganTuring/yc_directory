@@ -8,6 +8,8 @@ import { Button } from "./ui/button";
 const StartupCard = ({ post }: { post: StartupCardType }) => {
 
     const {_createdAt, views, author, _id, description, image, category, title} = post;
+    
+    console.log('Startup description:', description);
 
     return (
         <li className="startup-card group">
@@ -30,7 +32,7 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
                         </p>
                     </Link>
 
-                    <Link href={'/startup/${_id}'}>
+                    <Link href={`/startup/${_id}`}>
                         <p className="text-26-semibold line-clamp-1">
                             {title}
                         </p>

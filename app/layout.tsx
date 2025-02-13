@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Work_Sans } from 'next/font/google'
+import "easymde/dist/easymde.min.css"
 
 const workSans = Work_Sans({ 
   subsets: ['latin'],
