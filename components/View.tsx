@@ -2,6 +2,7 @@ import React from "react";
 import Ping from "./Ping";
 import { client } from "@/sanity/lib/client";
 import { STARTUPS_VIEWS_QUERY } from "@/sanity/lib/queries";
+import { writeClient } from "@/sanity/lib/write-client";
 
 const View = async ({ postId }: { postId: string }) => {
     try {
@@ -11,10 +12,16 @@ const View = async ({ postId }: { postId: string }) => {
 
         console.log("View query result:", result, "for postId:", postId);
 
-        if (!result) {
-            console.log("No document found for id:", postId);
-            return null;
-        }
+        // Update the view count directly
+        await writeClient
+            .patch(postId)
+            .set({
+                views: (result.views || 0) + 1
+            })
+            .commit();
+
+        const viewCount = (result.views || 0) + 1;
+        const viewText = viewCount === 1 ? 'View' : 'Views';
 
         return (
             <div className="view-container">
@@ -22,7 +29,7 @@ const View = async ({ postId }: { postId: string }) => {
                     <Ping />
                 </div>
                 <p className="view-text">
-                    {result.views || 0} Views
+                    <span className="font-black">{viewCount} {viewText}</span>
                 </p>
             </div>
         );
